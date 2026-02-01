@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parkinson's Disease Detection</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="glass-container">
+        <header>
+            <h1>NeuroPredict AI</h1>
+            <p>Parkinson's Disease Diagnostic Tool (Biomedical Voice Analysis)</p>
+        </header>
+
+        <form action="/predict" method="post" id="predictionForm">
+            <div class="model-selector">
+                <label>Select Analysis Engine:</label>
+                <select name="model_type">
+                    <option value="SVM">Support Vector Machine (SVM)</option>
+                    <option value="XGBoost">XGBoost Classifier</option>
+                </select>
+            </div>
+
+            <div class="input-grid">
+                <div class="input-group"><label>MDVP:Fo (Hz)</label><input type="number" step="any" name="fo" placeholder="119.99" required></div>
+                <div class="input-group"><label>MDVP:Fhi (Hz)</label><input type="number" step="any" name="fhi" placeholder="157.30" required></div>
+                <div class="input-group"><label>MDVP:Flo (Hz)</label><input type="number" step="any" name="flo" placeholder="74.99" required></div>
+                
+                <div class="input-group"><label>Jitter (%)</label><input type="number" step="any" name="jitter_percent" required></div>
+                <div class="input-group"><label>Jitter (Abs)</label><input type="number" step="any" name="jitter_abs" required></div>
+                <div class="input-group"><label>RAP</label><input type="number" step="any" name="rap" required></div>
+                <div class="input-group"><label>PPQ</label><input type="number" step="any" name="ppq" required></div>
+                <div class="input-group"><label>DDP</label><input type="number" step="any" name="ddp" required></div>
+
+                <div class="input-group"><label>Shimmer</label><input type="number" step="any" name="shimmer" required></div>
+                <div class="input-group"><label>Shimmer (dB)</label><input type="number" step="any" name="shimmer_db" required></div>
+                <div class="input-group"><label>APQ3</label><input type="number" step="any" name="apq3" required></div>
+                <div class="input-group"><label>APQ5</label><input type="number" step="any" name="apq5" required></div>
+                <div class="input-group"><label>APQ</label><input type="number" step="any" name="apq" required></div>
+                <div class="input-group"><label>DDA</label><input type="number" step="any" name="dda" required></div>
+
+                <div class="input-group"><label>NHR</label><input type="number" step="any" name="nhr" required></div>
+                <div class="input-group"><label>HNR</label><input type="number" step="any" name="hnr" required></div>
+                
+                <div class="input-group"><label>RPDE</label><input type="number" step="any" name="rpde" required></div>
+                <div class="input-group"><label>DFA</label><input type="number" step="any" name="dfa" required></div>
+                <div class="input-group"><label>Spread1</label><input type="number" step="any" name="spread1" required></div>
+                <div class="input-group"><label>Spread2</label><input type="number" step="any" name="spread2" required></div>
+                <div class="input-group"><label>D2</label><input type="number" step="any" name="d2" required></div>
+                <div class="input-group"><label>PPE</label><input type="number" step="any" name="ppe" required></div>
+            </div>
+
+            <button type="submit" class="predict-btn">Run Diagnostic Analysis</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="result-card" style="border-top: 5px solid {{ text_color }}">
+            <h2 style="color: {{ text_color }}">{{ prediction_text }}</h2>
+            <p>{{ model_info }}</p>
+            <button onclick="window.location.href='/'" class="reset-btn">New Test</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
